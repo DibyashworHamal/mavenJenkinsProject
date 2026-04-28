@@ -23,6 +23,13 @@ pipeline {
                 echo 'QGate'
             }
         }
+	 stage('BuildApp') {
+            steps {
+                echo 'Building Java-demo-app'
+		sh 'mvn package -DskipTests -f java-demo-app/pom.xml'
+            }
+        }
+
         stage('CreateImage') {
             steps {
                 echo 'Creating Docker Image'
