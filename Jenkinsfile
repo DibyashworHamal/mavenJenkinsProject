@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment{
+	REGISTRY='harbor.registry.local'
+	}
     stages {
         stage('Compile') {
             steps {
@@ -44,19 +46,23 @@ pipeline {
         stage('RenameImage') {
             steps {
                 echo 'Tagging an Image'
-		sh 'docker image tag java-demo-app:v1.0.0 harbor.registry.local/jenkinsprojects1/javademoapp:v1.0.0'
+		sh 'docker image tag java-demo-app:v1.0.0 ${REGISTRY}/jenkinsprojects1/javademoapp:v1.0.0'
             }
         }
 	 stage('LoginToHarbor') {
             steps {
                 echo 'Logging into Harbor Registry'
-		sh ' "Harbor12345" | docker login $REGISTRY -u "admin" --password-stdin '
+		withCredentials([usernamePassword(credentialsId: 'harbor-password', 
+                                          usernameVariable: 'USER', 
+                                          passwordVariable: 'PASS')]) {
+		sh "echo '${PASS}' | docker login ${REGISTRY} -u '${USER}' --password-stdin"
+		}
             }
         }
 	 stage('PushImage') {
             steps {
                 echo 'Push image to Harbor Registry'
-		sh 'docker image push harbor.registry.local/jenkinsprojects1/javademoapp:v1.0.0'
+		sh 'docker image push ${REGISTRY}/jenkinsprojects1/javademoapp:v1.0.0'
             }
         }
         stage('RunContainer') {
