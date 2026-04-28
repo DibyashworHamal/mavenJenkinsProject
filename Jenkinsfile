@@ -50,18 +50,13 @@ pipeline {
 	 stage('LoginToHarbor') {
             steps {
                 echo 'Logging into Harbor Registry'
-		echo "Harbor12345" | docker login $REGISTRY -u "admin" --password-stdin
+		echo 'Harbor12345' | docker login $REGISTRY -u 'admin' --password-stdin
             }
         }
 	 stage('PushImage') {
             steps {
                 echo 'Push image to Harbor Registry'
 		sh 'docker image push harbor.registry.local/jenkinsprojects1/javademoapp:v1.0.0'
-            }
-        }
-        stage('PushImage') {
-            steps {
-                echo 'Push image to Harbor Registry'
             }
         }
         stage('RunContainer') {
