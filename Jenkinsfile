@@ -38,6 +38,7 @@ pipeline {
         stage('CreateImage') {
             steps {
                 echo 'Creating Docker Image'
+		sh 'docker image build -t java-demo-app:v1.0.0 -f java-demo-app/Dockerfile .'
             }
         }
         stage('PushImage') {
