@@ -50,7 +50,7 @@ pipeline {
 	 stage('LoginToHarbor') {
             steps {
                 echo 'Logging into Harbor Registry'
-		echo 'Harbor12345' | docker login $REGISTRY -u 'admin' --password-stdin
+		sh ' "Harbor12345" | docker login $REGISTRY -u "admin" --password-stdin '
             }
         }
 	 stage('PushImage') {
