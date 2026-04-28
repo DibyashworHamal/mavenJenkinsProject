@@ -14,14 +14,14 @@
 
     <groupId>np.edu.nast</groupId>
     <artifactId>EventBookingSystem</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>EventBookingSystem</name>
     <description> Event Booking System is the Spring Boot Project</description>
 
     <properties>
-        <java.version>21</java.version>
+	<java.version>21</java.version>
         <lombok.version>1.18.30</lombok.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
+	<mapstruct.version>1.5.5.Final</mapstruct.version>
     </properties>
 
     <dependencies>
