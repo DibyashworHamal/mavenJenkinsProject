@@ -28,6 +28,11 @@ pipeline {
                 echo 'Building Java-demo-app'
 		sh 'mvn package -DskipTests -f java-demo-app/pom.xml'
             }
+	    post{
+	       success{
+		   archiveArtifacts artifacts: '*/*/*.war', followSymlinks: false, onlyIfSuccessful: true
+		}
+ 	   }
         }
 
         stage('CreateImage') {
