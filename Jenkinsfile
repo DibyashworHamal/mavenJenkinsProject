@@ -41,6 +41,24 @@ pipeline {
 		sh 'docker image build -t java-demo-app:v1.0.0 -f java-demo-app/Dockerfile .'
             }
         }
+        stage('RenameImage') {
+            steps {
+                echo 'Tagging an Image'
+		sh 'docker image tag java-demo-app:v1.0.0 harbor.registry.local/jenkinsprojects1/javademoapp:v1.0.0'
+            }
+        }
+	 stage('LoginToHarbor') {
+            steps {
+                echo 'Logging into Harbor Registry'
+		echo "Harbor12345" | docker login $REGISTRY -u "admin" --password-stdin
+            }
+        }
+	 stage('PushImage') {
+            steps {
+                echo 'Push image to Harbor Registry'
+		sh 'docker image push harbor.registry.local/jenkinsprojects1/javademoapp:v1.0.0'
+            }
+        }
         stage('PushImage') {
             steps {
                 echo 'Push image to Harbor Registry'
@@ -48,7 +66,7 @@ pipeline {
         }
         stage('RunContainer') {
             steps {
-                echo 'Running Inage Inside Container'
+                echo 'Running Image Inside Container'
             }
         }
     }
