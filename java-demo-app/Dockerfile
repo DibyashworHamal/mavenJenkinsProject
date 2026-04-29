@@ -6,7 +6,7 @@ ADD */*/*.war ./ROOT.war
 LABEL maintainer="Divyashwor Hamal" \
         version="1.0.0" \
         description="Java Demo App"
-RUN addgroup -r demogroup && adduser -S -G demogroup demouser && \
+RUN groupadd -r demogroup && useradd -r -g demogroup demouser && \
     chown -R demouser:demogroup /usr/local/tomcat
 USER demouser
 EXPOSE $PORT
