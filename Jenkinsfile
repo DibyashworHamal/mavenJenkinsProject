@@ -40,13 +40,13 @@ pipeline {
         stage('CreateImage') {
             steps {
                 echo 'Creating Docker Image'
-		sh 'docker image build -t java-demo-app:v1.0.0 -f java-demo-app/Dockerfile .'
+		sh 'docker image build -t java-demo-app:${BUILD_NUMBER} -f java-demo-app/Dockerfile .'
             }
         }
         stage('RenameImage') {
             steps {
                 echo 'Tagging an Image'
-		sh 'docker image tag java-demo-app:v1.0.0 ${REGISTRY}/jenkinsprojects1/javademoapp:v1.0.0'
+		sh 'docker image tag java-demo-app:${BUILD_NUMBER} ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER}'
             }
         }
 	 stage('LoginToHarbor') {
@@ -62,7 +62,7 @@ pipeline {
 	 stage('PushImage') {
             steps {
                 echo 'Push image to Harbor Registry'
-		sh 'docker image push ${REGISTRY}/jenkinsprojects1/javademoapp:v1.0.0'
+		sh 'docker image push ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER}'
             }
         }
         stage('RunContainer') {
