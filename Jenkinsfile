@@ -75,18 +75,6 @@ pipeline {
 		'''
             }
         }
-	 stage('Deploy Production Environment') {
-            steps {
-                 timeout(time:1, unit: 'Days'){
-		 input message: 'Approve PRODUCTION Deployment?'	
-		   }
-                sh '''
-                docker container stop tomcatCpntainerProd || true
-                docker container rm tomcatContainerProd || true
-                docker container run -itd --name tomcatContainerProd -p 8087:8085 ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER}
-                '''
-            }
-        }
     }
 }
 
