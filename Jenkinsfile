@@ -77,8 +77,8 @@ pipeline {
         }
 	 stage('Deploy Production Environment') {
             steps {
-                 timeout(time:1, unit:'Days'){
-		 input message:'Approve PRODUCTION Deployment?'	
+                 timeout(time:1, unit: 'Days'){
+		 input message: 'Approve PRODUCTION Deployment?'	
 		   }
                 sh '''
                 docker container stop tomcatCpntainerProd || true
@@ -87,7 +87,6 @@ pipeline {
                 '''
             }
         }
-
     }
 }
 
