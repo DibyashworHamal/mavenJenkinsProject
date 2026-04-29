@@ -7,7 +7,7 @@ pipeline {
         stage('Compile') {
             steps {
                 echo 'Compiling Code'
-		sh 'mvn compile -f */pom.xml'
+		sh 'mvn compile -f java-demo-app/pom.xml'
             }
         }
        stage('UnitTest') {
@@ -28,7 +28,7 @@ pipeline {
 	 stage('BuildApp') {
             steps {
                 echo 'Building Java-demo-app'
-		sh 'mvn clean package -DskipTests -f */pom.xml'
+		sh 'mvn clean package -DskipTests -f java-demo-app/pom.xml'
             }
 	    post{
 	       success{
