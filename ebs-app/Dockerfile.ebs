@@ -4,7 +4,7 @@ LABEL maintainer="Divyashwor Hamal" \
         description="Event Booking System App"
 ENV PORT=8089
 WORKDIR /app
-RUN addgroup -S ebsgroup && adduser -S ebsuser -G ebsgroup
+RUN groupadd -r ebsgroup && useradd -r -g ebsgroup ebsuser
 COPY target/*.jar ebs-app.jar
 RUN chown ebsuser:ebsgroup ebs-app.jar
 USER ebsuser
