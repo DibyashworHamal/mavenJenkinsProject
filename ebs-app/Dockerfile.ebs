@@ -5,7 +5,7 @@ LABEL maintainer="Divyashwor Hamal" \
 ENV PORT=8089
 WORKDIR /app
 RUN groupadd -r ebsgroup && useradd -r -g ebsgroup ebsuser
-COPY target/*.jar ebs-app.jar
+COPY ebs-app/*/*.jar ebs-app.jar
 RUN chown ebsuser:ebsgroup ebs-app.jar
 USER ebsuser
 EXPOSE $PORT
