@@ -2,13 +2,14 @@ FROM maven:3.9-eclipse-temurin-21
 LABEL maintainer="Divyashwor Hamal" \
         version="1.0.0" \
         description="Event Booking System App"
-ENV PORT=8089
 WORKDIR /app
 RUN groupadd -r ebsgroup && useradd -r -g ebsgroup ebsuser
 COPY ebs-app/*/*.jar ebs-app.jar
 RUN chown ebsuser:ebsgroup ebs-app.jar
+ARG BUILD_PORT
+ENV SERVER_PORT=$BUILD_PORT
 USER ebsuser
-EXPOSE $PORT
+EXPOSE $SERVER_PORT
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
   CMD wget --spider -q http://localhost:$PORT/ || exit 1
 ENTRYPOINT ["java","-jar"]

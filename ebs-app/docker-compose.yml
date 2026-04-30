@@ -1,0 +1,41 @@
+services:
+ # Database services
+ mysql-db:
+   image: mysql:8.0
+   container_name: event-db
+   restart: unless-stopped
+   environment:
+     MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+     MYSQL_DATABASE: $DB_NAME
+     MYSQL_USER: $DB_USER
+     MYSQL_PASSWORD: $DB_PASSWORD
+   ports:
+     - "$DB_HOST_PORT:$DB_CONTAINER_PORT"
+   volumes:
+     - "db-data:/var/lib/mysql"
+   healthcheck:
+     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$DB_ROOT_PASSWORD"]
+     interval: 10s
+     timeout: 5s
+     retries: 5
+
+ # Backend services
+ backend-api:
+   build: 
+     context: -f Dockerfile.ebs .
+     args:
+       - BUILD_PORT=$APP_PORT
+   container_name: event-api
+   restart: unless-stopped
+   depends_on:
+     mysql-db:
+       condition: service_healthy
+   ports:
+     - "$HOST_PORT:$APP_PORT"
+   environment:
+     - SERVER_PORT=$APP_PORT 
+     - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/$DB_NAME?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+     - SPRING_DATASOURCE_USERNAME=$DB_USER
+     - SPRING_DATASOURCE_PASSWORD=$DB_PASSWORD
+volumes:
+  db-data:
