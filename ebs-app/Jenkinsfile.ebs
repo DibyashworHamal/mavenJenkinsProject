@@ -67,13 +67,19 @@ pipeline {
         }
         stage('RunContainer') {
             steps {
-                echo 'Running Image Inside Container'
+                echo 'Running Image Inside Container with database'
+		withCredentials([file(credentialsId: 'ebs-env-file', variable: 'SECRET_ENV_FILE')]) {
                 sh '''
 		export REGISTRY=${REGISTRY}
 		export BUILD_NUMBER=${BUILD_NUMBER}
+		cp $SECRET_ENV_FILE .env
+		ls -al
+		cd ebs-app
 		docker compose down || true
 		docker compose up -d
+		rm .env
                 '''
+		}
             }
         }
     }
