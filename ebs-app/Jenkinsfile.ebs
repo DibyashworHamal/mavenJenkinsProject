@@ -32,15 +32,15 @@ pipeline {
             }
             post{
                success{
-                   archiveArtifacts artifacts: '*/*/*.jar', followSymlinks: false, onlyIfSuccessful: true
+                   archiveArtifacts artifacts: 'ebs-app/target/*.jar', followSymlinks: false, onlyIfSuccessful: true
                 }
            }
         }
 
         stage('CreateImage') {
-            steps {
+            steps { 
                 echo 'Creating Docker Image'
-                sh 'docker image build -t ebs-app:${BUILD_NUMBER} -f ebs-app/Dockerfile.ebs .'
+                sh 'docker image build --build-arg BUILD_PORT=8089 -t ebs-app:${BUILD_NUMBER} -f ebs-app/Dockerfile.ebs .'
             }
         }
         stage('RenameImage') {
@@ -69,9 +69,10 @@ pipeline {
             steps {
                 echo 'Running Image Inside Container'
                 sh '''
-                docker container stop ebsContainer || true
-                docker container rm ebsContainer || true
-                docker container run -itd --name ebsContainer -p 8088:8089 ${REGISTRY}/jenkinsprojects1/ebsapp:${BUILD_NUMBER}
+		export REGISTRY=${REGISTRY}
+		export BUILD_NUMBER=${BUILD_NUMBER}
+		docker compose down || true
+		docker compose up -d
                 '''
             }
         }
