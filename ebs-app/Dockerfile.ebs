@@ -6,7 +6,7 @@ WORKDIR /app
 RUN groupadd -r ebsgroup && useradd -r -g ebsgroup ebsuser
 COPY ebs-app/target/*.jar ebs-app.jar
 RUN chown ebsuser:ebsgroup ebs-app.jar
-ARG BUILD_PORT=8080
+ARG BUILD_PORT
 ENV SERVER_PORT=$BUILD_PORT
 USER ebsuser
 EXPOSE $SERVER_PORT
