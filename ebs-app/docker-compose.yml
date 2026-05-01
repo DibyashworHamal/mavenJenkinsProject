@@ -23,7 +23,7 @@ services:
  backend-api:
    image: $REGISTRY/jenkinsproject1/ebsapp:$BUILD_NUMBER
    build: 
-     context: .
+     context: ..
      dockerfile: ebs-app/Dockerfile.ebs  
      args:
        BUILD_PORT: $APP_PORT
