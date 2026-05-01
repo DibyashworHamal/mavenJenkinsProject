@@ -72,7 +72,7 @@ pipeline {
                 sh '''
 		export REGISTRY=${REGISTRY}
 		export BUILD_NUMBER=${BUILD_NUMBER}
-		cp $SECRET_ENV_FILE .env
+		cp $SECRET_ENV_FILE ebs-app/.env
 		ls -al
 		cd ebs-app
 		docker compose down || true
