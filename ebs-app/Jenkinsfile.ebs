@@ -75,7 +75,7 @@ pipeline {
 		rm -f ebs-app/.env
 		cp $SECRET_ENV_FILE ebs-app/.env
 		chmod 600 ebs-app/.env
-		ls -al
+		ls -al ebs-app/
 		cd ebs-app
 		docker compose down || true
 		docker compose up -d
@@ -84,6 +84,17 @@ pipeline {
 		}
             }
         }
+	 stage('Checking') {
+            steps {
+                echo 'Checking build images and running containers'
+                sh '''
+		docker images
+		docker container ls -a
+		docker compose ps
+		'''
+            }
+        }
+
     }
 }
 
