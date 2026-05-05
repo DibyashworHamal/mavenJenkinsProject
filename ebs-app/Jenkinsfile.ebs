@@ -90,7 +90,6 @@ pipeline {
                 sh '''
 		docker images
 		docker container ls -a
-		docker compose ps
 		'''
             }
         }
