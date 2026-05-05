@@ -69,7 +69,7 @@ pipeline {
             steps {
                 echo 'Running Image Inside Container'
 		sh '''
-		docker container stop tomcatCpntainer || true
+		docker container stop tomcatContainer || true
 		docker container rm tomcatContainer || true
 		docker container run -itd --name tomcatContainer -p 8086:8085 ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER}
 		'''
