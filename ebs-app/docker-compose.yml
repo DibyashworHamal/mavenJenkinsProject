@@ -24,7 +24,6 @@ services:
    image: $REGISTRY/jenkinsproject1/ebsapp:$BUILD_NUMBER
    build: 
      context: .
-     dockerfile: ebs-app/Dockerfile
      args:
        BUILD_PORT: $APP_PORT
    container_name: event-api
