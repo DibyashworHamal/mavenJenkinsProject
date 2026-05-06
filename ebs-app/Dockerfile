@@ -3,7 +3,9 @@ LABEL maintainer="Divyashwor Hamal" \
         version="1.0.0" \
         description="Event Booking System App"
 WORKDIR /app
-RUN groupadd -r ebsgroup && useradd -r -g ebsgroup ebsuser
+RUN groupadd -r ebsgroup && useradd -r -m -g ebsgroup ebsuser
+RUN mkdir -p /home/ebsuser/ebs_uploads/organizer_docs && \
+    chown -R ebsuser:ebsgroup /home/ebsuser
 ADD target/*.jar ebs-app.jar
 RUN chown ebsuser:ebsgroup ebs-app.jar
 ARG BUILD_PORT
