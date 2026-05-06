@@ -11,16 +11,25 @@ pipeline {
             }
         }
        stage('UnitTest') {
+        agent {
+            label 'ubuntu-vm1'
+        }
             steps {
                 echo 'Start Unit Testing'
             }
         }
         stage('SecurityScan') {
+            agent {
+            label 'ubuntu-vm1'
+        }
             steps {
                 echo 'Scan Vulnerability'
             }
         }
         stage('QualityGate') {
+            agent {
+            label 'ubuntu-vm1'
+        }
             steps {
                 echo 'QGate'
             }
