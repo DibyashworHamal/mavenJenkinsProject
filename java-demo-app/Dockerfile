@@ -2,7 +2,7 @@ FROM tomcat:9.0-jdk11-openjdk-slim
 ENV PORT=8080
 WORKDIR /usr/local/tomcat/webapps/
 RUN rm -rf ./ROOT && rm -rf ./examples
-ADD java-demo-app/*/*.war ./ROOT.war
+ADD target/*.war ./ROOT.war
 LABEL maintainer="Divyashwor Hamal" \
         version="1.0.0" \
         description="Java Demo App"
