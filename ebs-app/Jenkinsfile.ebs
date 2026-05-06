@@ -42,7 +42,7 @@ pipeline {
                 echo 'Creating Docker Image'
                 sh '''
                 cd ebs-app
-                docker image build --build-arg BUILD_PORT=8089 -t ebs-app:${BUILD_NUMBER} -f Dockerfile.ebs .
+                docker image build -t ebs-app:${BUILD_NUMBER} .
                 '''
             }
         }
