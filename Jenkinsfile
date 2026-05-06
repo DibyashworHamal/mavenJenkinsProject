@@ -27,26 +27,27 @@ pipeline {
         }
 	 stage('BuildApp') {
             steps {
-                echo 'Building Java-demo-app'
-		sh 'mvn clean package -DskipTests -f java-demo-app/pom.xml'
+              echo 'Building Java-demo-app'
+		      sh 'mvn clean package -DskipTests -f java-demo-app/pom.xml'
             }
-	    post{
+	     post{
 	       success{
-		   archiveArtifacts artifacts: '*/*/*.war', followSymlinks: false, onlyIfSuccessful: true
-		}
- 	   }
+		    archiveArtifacts artifacts: 'java-demo-app/*/*.war', followSymlinks: false, onlyIfSuccessful: true
+		  }
+ 	     }
         }
 
         stage('CreateImage') {
             steps {
+                cd 'java-demo-app'   
                 echo 'Creating Docker Image'
-		sh 'docker image build -t java-demo-app:${BUILD_NUMBER} -f java-demo-app/Dockerfile .'
+		        sh 'docker image build -t java-demo-app:${BUILD_NUMBER} .'
             }
         }
         stage('RenameImage') {
             steps {
                 echo 'Tagging an Image'
-		sh 'docker image tag java-demo-app:${BUILD_NUMBER} ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER}'
+		        sh 'docker image tag java-demo-app:${BUILD_NUMBER} ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER}'
             }
         }
 	 stage('LoginToHarbor') {
