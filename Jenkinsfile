@@ -68,16 +68,17 @@ pipeline {
 		sh 'docker image push ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER}'
             }
         }
-        stage('RunContainer') {
+        /*stage('RunContainer') {
             steps {
                 echo 'Running Image Inside Container'
-		sh '''
-		docker container stop tomcatContainer || true
-		docker container rm tomcatContainer || true
-		docker container run -itd --name tomcatContainer -p 8086:8080 ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER}
-		'''
+		        sh '''
+		        docker container stop tomcatContainer || true
+		        docker container rm tomcatContainer || true
+		        docker container run -itd --name tomcatContainer -p 8086:8080 ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER}
+		        '''
             }
-        }
+        } */
+
         stage('Deploy to production environment') {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
@@ -90,6 +91,22 @@ pipeline {
 		        docker container run -itd --name tomcatContainerprod -p 8087:8080 ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER}
 		        '''
             }
+        }
+    }
+    post {
+        always {
+            echo 'Cleaning up workspace and Docker images'
+            sh '''
+            docker image rm java-demo-app:${BUILD_NUMBER} || true
+            docker image rm ${REGISTRY}/jenkinsprojects1/javademoapp:${BUILD_NUMBER} || true
+            '''
+            cleanWs()
+        }
+        success {
+            echo 'Build and deployment successful!'
+        }
+        failure {
+            echo 'Build or deployment failed. Please check the logs.'
         }
     }
 }
