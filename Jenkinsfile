@@ -39,9 +39,11 @@ pipeline {
 
         stage('CreateImage') {
             steps {
-                cd 'java-demo-app'   
                 echo 'Creating Docker Image'
-		        sh 'docker image build -t java-demo-app:${BUILD_NUMBER} .'
+                sh '''
+                cd java-demo-app  
+		        sh docker image build -t java-demo-app:${BUILD_NUMBER} .
+                '''
             }
         }
         stage('RenameImage') {
