@@ -40,7 +40,10 @@ pipeline {
         stage('CreateImage') {
             steps { 
                 echo 'Creating Docker Image'
-                sh 'docker image build --build-arg BUILD_PORT=8089 -t ebs-app:${BUILD_NUMBER} -f ebs-app/Dockerfile.ebs .'
+                sh '''
+                cd ebs-app
+                docker image build --build-arg BUILD_PORT=8089 -t ebs-app:${BUILD_NUMBER} -f Dockerfile.ebs .
+                '''
             }
         }
         stage('RenameImage') {
