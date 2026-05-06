@@ -103,10 +103,22 @@ pipeline {
             cleanWs()
         }
         success {
-            echo 'Build and deployment successful!'
+            mail bbc: '', body: """Hello Team,
+            BUILD #${BUILD_NUMBER} of Java Demo App was successful.
+            You can find the build details at: ${env.BUILD_URL}
+            and verify the details
+            Regards,
+            DevOps Team""", cc: '', from: '', replyTo: '', subject: "Build #${BUILD_NUMBER} Successful - Java Demo App",
+            to: 'hamaldivyashwor2057@gmail.com'
         }
         failure {
-            echo 'Build or deployment failed. Please check the logs.'
+            mail bbc: '', body: """Hello Team,
+            BUILD #${BUILD_NUMBER} of Java Demo App has failed.
+            Please check the build details at: ${env.BUILD_URL}
+            and investigate the issue.
+            Regards,
+            DevOps Team""", cc: '', from: '', replyTo: '', subject: "Build #${BUILD_NUMBER} Failed - Java Demo App",
+            to: 'hamaldivyashwor2057@gmail.com'
         }
     }
 }
