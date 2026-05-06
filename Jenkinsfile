@@ -103,7 +103,7 @@ pipeline {
             cleanWs()
         }
         success {
-            mail bbc: '', body: """Hello Team,
+            mail bcc: '', body: """Hello Team,
             BUILD #${BUILD_NUMBER} of Java Demo App was successful.
             You can find the build details at: ${env.BUILD_URL}
             and verify the details
@@ -112,7 +112,7 @@ pipeline {
             to: 'hamaldivyashwor2057@gmail.com'
         }
         failure {
-            mail bbc: '', body: """Hello Team,
+            mail bcc: '', body: """Hello Team,
             BUILD #${BUILD_NUMBER} of Java Demo App has failed.
             Please check the build details at: ${env.BUILD_URL}
             and investigate the issue.
