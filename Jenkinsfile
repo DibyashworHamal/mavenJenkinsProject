@@ -42,7 +42,7 @@ pipeline {
                 echo 'Creating Docker Image'
                 sh '''
                 cd java-demo-app  
-		        sh docker image build -t java-demo-app:${BUILD_NUMBER} .
+		        docker image build -t java-demo-app:${BUILD_NUMBER} .
                 '''
             }
         }
